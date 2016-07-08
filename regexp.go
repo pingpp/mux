@@ -8,7 +8,6 @@ import (
 	"bytes"
 	"fmt"
 	"net/http"
-	"net/url"
 	"regexp"
 	"strconv"
 	"strings"
@@ -259,19 +258,19 @@ func (v *routeRegexpGroup) setMatch(req *http.Request, m *RouteMatch, r *Route) 
 		if len(matches) > 0 {
 			extractVars(req.URL.Path, matches, v.path.varsN, m.Vars)
 			// Check if we should redirect.
-			if v.path.strictSlash {
-				p1 := strings.HasSuffix(req.URL.Path, "/")
-				p2 := strings.HasSuffix(v.path.template, "/")
-				if p1 != p2 {
-					u, _ := url.Parse(req.URL.String())
-					if p1 {
-						u.Path = u.Path[:len(u.Path)-1]
-					} else {
-						u.Path += "/"
-					}
-					m.Handler = http.RedirectHandler(u.String(), 301)
-				}
-			}
+			// if v.path.strictSlash {
+			// 	p1 := strings.HasSuffix(req.URL.Path, "/")
+			// 	p2 := strings.HasSuffix(v.path.template, "/")
+			// 	if p1 != p2 {
+			// 		u, _ := url.Parse(req.URL.String())
+			// 		if p1 {
+			// 			u.Path = u.Path[:len(u.Path)-1]
+			// 		} else {
+			// 			u.Path += "/"
+			// 		}
+			// 		m.Handler = http.RedirectHandler(u.String(), 301)
+			// 	}
+			// }
 		}
 	}
 	// Store query string variables.
